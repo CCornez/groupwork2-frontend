@@ -7,6 +7,8 @@ const CreateArea = ({ onAdd }) => {
     content: "",
   });
 
+  const [error, setError] = useState(false);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setNote((preValue) => {
@@ -18,13 +20,19 @@ const CreateArea = ({ onAdd }) => {
   }
 
   const submitButton = (event) => {
-    onAdd(note);
-    setNote({
-      title: "",
-      content: "",
-    });
     event.preventDefault();
+    if (note.title.trim() !== "" && note.content.trim() !== "") {
+      onAdd(note);
+      setNote({
+        title: "",
+        content: "",
+      });
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
+
   return (
     <>
       <section className="section">
@@ -38,7 +46,9 @@ const CreateArea = ({ onAdd }) => {
                 value={note.title}
                 type="text"
                 placeholder="Title"
+                required
               />
+
               <p>
                 <textarea
                   className="my-1 mx-1 is-size-6"
@@ -46,10 +56,16 @@ const CreateArea = ({ onAdd }) => {
                   name="content"
                   placeholder="Take a note..."
                   onChange={handleChange}
+                  required
                 >
                   {" "}
                 </textarea>
               </p>
+              {error && (
+                <p className="help is-danger">
+                  Title and content cannot be empty!
+                </p>
+              )}
               <button
                 className="button is-warning is-rounded"
                 type="submit"
