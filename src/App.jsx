@@ -3,6 +3,7 @@ import Header from './components/Header';
 import CreateArea from './components/CreateArea';
 import Note from './components/Note';
 import 'bulma/css/bulma.min.css';
+import ListItem from './components/ListItem';
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -30,6 +31,8 @@ const App = (props) => {
           onDelete={deleteNotes}
         />
       ))}
+      {/* test ListItem component */}
+      <ListItem />
     </div>
   );
 };
