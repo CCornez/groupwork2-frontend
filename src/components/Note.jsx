@@ -1,6 +1,6 @@
 import React from "react";
 
-const Note = ({ title, content }) => {
+const Note = ({ title, content, onDelete, id }) => {
   return (
     <>
       <section className="section">
@@ -9,7 +9,12 @@ const Note = ({ title, content }) => {
             <div className="column">
               <div className="card">
                 <div className="card-content">
-                  <button className="delete"></button>
+                  <button
+                    className="delete"
+                    onClick={() => {
+                      onDelete(id);
+                    }}
+                  ></button>
                   <h1 className="is-size-5 has-text-weight-bold">{title}</h1>
                   <p>{content}</p>
                 </div>

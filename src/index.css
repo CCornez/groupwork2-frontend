@@ -8,6 +8,8 @@
   border: none;
   outline: none;
   resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 #title-box textarea {
@@ -16,4 +18,6 @@
   outline: none;
   resize: vertical;
   overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
