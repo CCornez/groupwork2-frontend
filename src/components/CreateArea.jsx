@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import Note from "./Note";
+import React, { useState, useEffect } from "react";
 
 const CreateArea = ({ onAdd }) => {
   const [note, setNote] = useState({
     title: "",
     content: "",
+    category: "",
   });
+
+  const [categories, setCategories] = useState([]);
 
   const [error, setError] = useState(false);
 
@@ -21,11 +23,23 @@ const CreateArea = ({ onAdd }) => {
 
   const submitButton = (event) => {
     event.preventDefault();
-    if (note.title.trim() !== "" && note.content.trim() !== "") {
+    if (
+      note.title.trim() !== "" &&
+      note.content.trim() !== "" &&
+      note.category.trim() !== ""
+    ) {
       onAdd(note);
+      setCategories((prevCategories) => {
+        if (prevCategories.includes(note.category) && note.category !== "") {
+          return prevCategories;
+        } else {
+          return [...prevCategories, note.category];
+        }
+      });
       setNote({
         title: "",
         content: "",
+        category: "",
       });
       setError(false);
     } else {
@@ -61,9 +75,33 @@ const CreateArea = ({ onAdd }) => {
                   {" "}
                 </textarea>
               </p>
+
+              <select
+                name="category"
+                onChange={handleChange}
+                className="my-1 mx-1 mb-2 is-size-6"
+                value={note.category}
+              >
+                <option value="">Category</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                name="category"
+                onChange={handleChange}
+                className="my-1 mx-1 mb-2 is-size-6"
+                value={note.category}
+                type="text"
+                placeholder="New category"
+              />
+
               {error && (
                 <p className="help is-danger">
-                  Title and content cannot be empty!
+                  Title, content or category cannot be empty!
                 </p>
               )}
               <button
