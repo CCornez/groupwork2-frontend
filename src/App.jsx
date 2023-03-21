@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import CreateArea from './components/CreateArea';
 import Note from './components/Note';
+import Test from './components/Test';
 import 'bulma/css/bulma.min.css';
 
 const App = (props) => {
@@ -30,6 +31,7 @@ const App = (props) => {
           onDelete={deleteNotes}
         />
       ))}
+      <Test />
     </div>
   );
 };
