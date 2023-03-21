@@ -1,4 +1,5 @@
 import { MdDelete } from 'react-icons/md';
+import { BsPencilSquare } from 'react-icons/bs';
 
 const ListItem = () => {
   return (
@@ -12,6 +13,9 @@ const ListItem = () => {
     >
       <p>ListItem</p>
       <div class='buttons'>
+        <button class='button is-light'>
+          <BsPencilSquare />
+        </button>
         <button class='button is-danger'>
           <MdDelete />
         </button>
