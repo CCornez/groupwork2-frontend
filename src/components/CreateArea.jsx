@@ -23,14 +23,10 @@ const CreateArea = ({ onAdd }) => {
 
   const submitButton = (event) => {
     event.preventDefault();
-    if (
-      note.title.trim() !== "" &&
-      note.content.trim() !== "" &&
-      note.category.trim() !== ""
-    ) {
+    if (note.title.trim() !== "" && note.content.trim() !== "") {
       onAdd(note);
       setCategories((prevCategories) => {
-        if (prevCategories.includes(note.category) && note.category !== "") {
+        if (prevCategories.includes(note.category)) {
           return prevCategories;
         } else {
           return [...prevCategories, note.category];
@@ -101,7 +97,7 @@ const CreateArea = ({ onAdd }) => {
 
               {error && (
                 <p className="help is-danger">
-                  Title, content or category cannot be empty!
+                  Title and content cannot be empty!
                 </p>
               )}
               <button
