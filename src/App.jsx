@@ -5,6 +5,7 @@ import CreateArea from './components/CreateArea';
 import Note from './components/Note';
 import CategoryList from './components/CategoryList';
 import TodoList from './components/TodoList';
+import ListTemp from './components/ListTemp';
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -39,6 +40,11 @@ const App = (props) => {
       ))}  */}
       <div>
         <TodoList />
+      </div>
+
+      {/* test ListItem component */}
+      <div>
+        <ListTemp />
       </div>
     </>
   );
