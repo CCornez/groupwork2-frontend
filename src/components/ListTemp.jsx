@@ -27,11 +27,7 @@ const ListTemp = () => {
   return (
     <>
       {listItems.map((listItem) => (
-        <ListItem
-          key={listItem.id}
-          listItem={listItem}
-          //   handleItemClick={handleItemClick}
-        />
+        <ListItem key={listItem.id} listItem={listItem} />
       ))}
     </>
   );
