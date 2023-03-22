@@ -4,7 +4,7 @@ import Header from './components/Header';
 import CreateArea from './components/CreateArea';
 import Note from './components/Note';
 import CategoryList from './components/CategoryList';
-import ListItem from './components/ListItem';
+import TodoList from './components/TodoList';
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -20,8 +20,8 @@ const App = (props) => {
   }
 
   return (
-    <div>
-      <Header />
+    <>
+      {/*<Header />
       <div id='user-fields'>
         <CategoryList />
         <CreateArea onAdd={addNote} />
@@ -36,10 +36,11 @@ const App = (props) => {
           onDelete={deleteNotes}
           category={note.category}
         />
-      ))}
-      {/* test ListItem component */}
-      <ListItem />
-    </div>
+      ))}  */}
+      <div>
+        <TodoList />
+      </div>
+    </>
   );
 };
 
