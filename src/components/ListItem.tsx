@@ -22,6 +22,7 @@ const ListItem = (props: any) => {
   const [value, setValue] = useState(title);
   const [completed, setCompleted] = useState(is_completed);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   /**
    * Events
@@ -31,8 +32,9 @@ const ListItem = (props: any) => {
     // TODO: update complete in db
     // const id = e.currentTarget.dataset.id;
 
-    // check if user is NOT changing a list item
-    if (!isUpdating) {
+    // check if user is changing a list item and if the modal is open
+    if (!isUpdating && !isModal) {
+      // check if clicking on the box
       if (e.target.classList.contains('box') || e.target.nodeName === 'INPUT') {
         setCompleted((prevState) => !prevState);
       }
@@ -58,7 +60,30 @@ const ListItem = (props: any) => {
     setValue(e.currentTarget.value);
   };
 
-  const handleItemDelete = () => {};
+  const openModal = (e) => {
+    setIsModal(true);
+    e.target
+      .closest('.listItem')
+      .querySelector('.modal')
+      .classList.add('is-active');
+  };
+  const closeModal = (e) => {
+    // close if clicked outside of modal or on cancel button
+    if (
+      !e.target.closest('.deleteModal') ||
+      e.currentTarget.classList.contains('button')
+    ) {
+      setIsModal(true);
+      e.target
+        .closest('.listItem')
+        .querySelector('.modal')
+        .classList.remove('is-active');
+    }
+  };
+
+  const handleItemDelete = (e) => {
+    e.target.closest('.listItem').style.display = 'none';
+  };
 
   return (
     <div
@@ -89,9 +114,35 @@ const ListItem = (props: any) => {
         <button className='button is-light' onClick={handleItemEdit}>
           {isUpdating ? <BsFillCheckSquareFill /> : <BsPencilSquare />}
         </button>
-        <button className='button is-danger' onClick={handleItemDelete}>
+        <button className='button is-danger' onClick={openModal}>
           <MdDelete />
         </button>
+      </div>
+
+      {/* modal */}
+      <div className='modal' onClick={closeModal}>
+        <div className='modal-background'></div>
+        <div className='modal-content'>
+          <div className='box deleteModal'>
+            <p className='is-size-4 has-text-centered mb-5 '>Are you sure ?</p>
+            <div
+              className='buttons'
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <button className='button is-danger' onClick={handleItemDelete}>
+                Yes
+              </button>
+              <button className='button' onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+        <button className='modal-close is-large' aria-label='close'></button>
       </div>
     </div>
   );
