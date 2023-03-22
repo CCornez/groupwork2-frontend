@@ -73,7 +73,7 @@ const ListItem = (props: any) => {
       !e.target.closest('.deleteModal') ||
       e.currentTarget.classList.contains('button')
     ) {
-      setIsModal(true);
+      setIsModal(false);
       e.target
         .closest('.listItem')
         .querySelector('.modal')
