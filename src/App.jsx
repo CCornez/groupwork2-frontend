@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import CreateArea from './components/CreateArea';
-import Note from './components/Note';
-import 'bulma/css/bulma.min.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import CreateArea from "./components/CreateArea";
+import Note from "./components/Note";
+import TodoList from "./components/TodoList";
+
+import "bulma/css/bulma.min.css";
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -18,8 +20,8 @@ const App = (props) => {
   }
 
   return (
-    <div>
-      <Header />
+    <>
+      {/* <Header />
       <CreateArea onAdd={addNote} />
       {notes.map((note, index) => (
         <Note
@@ -29,8 +31,12 @@ const App = (props) => {
           content={note.content}
           onDelete={deleteNotes}
         />
-      ))}
-    </div>
+      ))}  */}
+      <div>
+        
+        <TodoList />
+      </div>
+    </>
   );
 };
 
