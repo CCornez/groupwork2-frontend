@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Note = ({ title, content, onDelete, id }) => {
+const Note = ({ title, content, category, onDelete, id }) => {
   return (
-    <>
+    <div id="note">
       <section className="section">
         <div className="container">
           <div className="columns is-1 is-variable is-centered">
@@ -15,7 +15,13 @@ const Note = ({ title, content, onDelete, id }) => {
                       onDelete(id);
                     }}
                   ></button>
-                  <h1 className="is-size-5 has-text-weight-bold">{title}</h1>
+                  <h1 className="is-size-5 has-text-weight-bold">
+                    {title}{" "}
+                    <span className="has-text-right is-size-7 is-italic has-text-weight-bold">
+                      ({category})
+                    </span>
+                  </h1>
+
                   <p>{content}</p>
                 </div>
               </div>
@@ -23,7 +29,7 @@ const Note = ({ title, content, onDelete, id }) => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

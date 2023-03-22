@@ -1,10 +1,11 @@
+import React from 'react'
 import { MdDelete } from 'react-icons/md';
 import { BsPencilSquare } from 'react-icons/bs';
 
 const ListItem = () => {
   return (
     <div
-      class='box'
+      className='box'
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -12,11 +13,11 @@ const ListItem = () => {
       }}
     >
       <p>ListItem</p>
-      <div class='buttons'>
-        <button class='button is-light'>
+      <div className='buttons'>
+        <button className='button is-light'>
           <BsPencilSquare />
         </button>
-        <button class='button is-danger'>
+        <button className='button is-danger'>
           <MdDelete />
         </button>
       </div>
