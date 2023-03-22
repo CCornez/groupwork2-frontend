@@ -79,6 +79,7 @@ const CreateArea = ({ onAdd }) => {
                 value={note.category}
               >
                 <option value="">Category</option>
+
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
@@ -100,6 +101,7 @@ const CreateArea = ({ onAdd }) => {
                   Title and content cannot be empty!
                 </p>
               )}
+
               <button
                 className="button is-warning is-rounded"
                 type="submit"
