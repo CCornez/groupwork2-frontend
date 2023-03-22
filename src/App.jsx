@@ -4,6 +4,7 @@ import CreateArea from './components/CreateArea';
 import Note from './components/Note';
 import 'bulma/css/bulma.min.css';
 import ListItem from './components/ListItem';
+import ListTemp from './components/ListTemp';
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -32,31 +33,7 @@ const App = (props) => {
         />
       ))}
       {/* test ListItem component */}
-      <ListItem
-        item={{
-          id: 1,
-          todo_lists_id: 1,
-          title: 'test',
-          is_completed: 0,
-        }}
-      />
-      <ListItem
-        item={{
-          id: 2,
-          todo_lists_id: 1,
-          title: 'alo',
-          is_completed: 1,
-        }}
-      />{' '}
-      <ListItem
-        item={{
-          id: 3,
-          todo_lists_id: 2,
-          title:
-            'testing with a longer phrase as to see how it is going to look like on the html page',
-          is_completed: 0,
-        }}
-      />
+      <ListTemp />
     </div>
   );
 };

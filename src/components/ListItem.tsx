@@ -10,8 +10,8 @@ const ListItem = (props: any) => {
     is_completed: boolean;
   }
 
-  const {id, title, is_completed}: Item = props.item;
-
+  const {id, title, todo_lists_id, is_completed}: Item = props.listItem;
+  
   const [value, setValue] = useState(title)
   const [completed, setCompleted] = useState(is_completed)
 
