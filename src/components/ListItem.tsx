@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useEffect,
+  MouseEvent,
+  ChangeEvent,
+  MouseEventHandler,
+  ChangeEventHandler,
+} from 'react';
 import { MdDelete } from 'react-icons/md';
 import { BsPencilSquare, BsFillCheckSquareFill } from 'react-icons/bs';
+import fetcher from '../js/fetcher';
 
 const ListItem = (props: any) => {
   /**
@@ -12,7 +20,7 @@ const ListItem = (props: any) => {
     id: number;
     todo_lists_id: number;
     title: string;
-    is_completed: boolean;
+    is_completed: string;
   }
 
   // props
@@ -20,7 +28,7 @@ const ListItem = (props: any) => {
 
   // states
   const [value, setValue] = useState(title);
-  const [completed, setCompleted] = useState(is_completed);
+  const [completed, setCompleted] = useState(is_completed !== '0');
   const [isUpdating, setIsUpdating] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
@@ -28,61 +36,110 @@ const ListItem = (props: any) => {
    * Events
    */
 
-  const handleItemClick = (e) => {
+  const handleItemClick: MouseEventHandler<HTMLDivElement> = (
+    e: MouseEvent<HTMLDivElement> & { target: Element }
+  ) => {
     // TODO: update complete in db
-    // const id = e.currentTarget.dataset.id;
+    const id = e.currentTarget.dataset.id;
 
     // check if user is changing a list item and if the modal is open
-    if (!isUpdating && !isModal) {
-      // check if clicking on the box
-      if (e.target.classList.contains('box') || e.target.nodeName === 'INPUT') {
-        setCompleted((prevState) => !prevState);
-      }
+    // check if clicking on the box
+    if (
+      !isUpdating &&
+      !isModal &&
+      (e.target.classList.contains('box') || e.target.nodeName === 'INPUT')
+    ) {
+      // patch
+      (async () => {
+        const { data } = await fetcher.patch(`/todo/${id}`, {
+          is_completed: completed ? 0 : 1,
+        });
+
+        // check fetch successful
+        if (data.status === 'success') {
+          setCompleted((prevState) => !prevState);
+        }
+      })();
     }
   };
 
-  const handleItemEdit = (e) => {
-    const inputRef = e.target.closest('.box').querySelector('.input');
+  const handleItemEdit: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & { target: Element }
+  ) => {
+    const inputRef = e.target
+      .closest('.box')
+      ?.querySelector('.input') as HTMLInputElement;
     if (!isUpdating) {
       setIsUpdating(true);
       if (inputRef) {
         inputRef.disabled = false;
       }
     } else {
-      setIsUpdating(false);
-      if (inputRef) {
-        inputRef.disabled = true;
-      }
+      // patch
+      (async () => {
+        const { data } = await fetcher.patch(`/todo/${id}`, {
+          title: value,
+        });
+
+        // check fetch successful
+        if (data.status === 'success') {
+          setIsUpdating(false);
+          if (inputRef) {
+            inputRef.disabled = true;
+          }
+        }
+      })();
     }
   };
 
-  const handleItemChange = (e) => {
+  const handleItemChange: ChangeEventHandler<HTMLInputElement> = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     setValue(e.currentTarget.value);
   };
 
-  const openModal = (e) => {
+  const openModal: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & { target: Element }
+  ) => {
     setIsModal(true);
     e.target
       .closest('.listItem')
-      .querySelector('.modal')
-      .classList.add('is-active');
+      ?.querySelector('.modal')
+      ?.classList.add('is-active');
   };
-  const closeModal = (e) => {
+
+  const closeModal: MouseEventHandler<HTMLButtonElement | HTMLDivElement> = (
+    e: MouseEvent<HTMLButtonElement | HTMLDivElement> & { target: Element }
+  ) => {
     // close if clicked outside of modal or on cancel button
     if (
       !e.target.closest('.deleteModal') ||
-      e.currentTarget.classList.contains('button')
+      (e.currentTarget as HTMLButtonElement).classList.contains('button')
     ) {
       setIsModal(false);
       e.target
         .closest('.listItem')
-        .querySelector('.modal')
-        .classList.remove('is-active');
+        ?.querySelector('.modal')
+        ?.classList.remove('is-active');
     }
   };
 
-  const handleItemDelete = (e) => {
-    e.target.closest('.listItem').style.display = 'none';
+  const handleItemDelete: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & {
+      target: Element;
+    }
+  ) => {
+    // patch
+    (async () => {
+      const { data } = await fetcher.patch(`/todo/${id}`, {
+        is_visible: 0,
+      });
+
+      // check fetch successful
+      if (data.status === 'success') {
+        (e.target.closest('.listItem') as HTMLElement).style.display = 'none';
+      }
+    })();
   };
 
   return (

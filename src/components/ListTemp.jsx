@@ -1,28 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ListItem from './ListItem';
+import fetcher from '../js/fetcher';
 
 const ListTemp = () => {
-  const [listItems, setListItems] = useState([
-    {
-      id: 1,
-      todo_lists_id: 1,
-      title: 'test',
-      is_completed: 0,
-    },
-    {
-      id: 2,
-      todo_lists_id: 1,
-      title: 'alo',
-      is_completed: 1,
-    },
-    {
-      id: 3,
-      todo_lists_id: 2,
-      title:
-        'testing with a longer phrase as to see how it is going to look like on the html page',
-      is_completed: 0,
-    },
-  ]);
+  const [listItems, setListItems] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await fetcher('/todos');
+        setListItems(data.todos);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   return (
     <>
