@@ -78,8 +78,7 @@ const CreateArea = ({ onAdd }) => {
                 className="my-1 mx-1 mb-2 is-size-6"
                 value={note.category}
               >
-                <option value="">Category</option>
-
+                <option value="">Category</option> 
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
