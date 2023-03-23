@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import 'bulma/css/bulma.min.css';
-import Header from './components/Header';
-import CreateArea from './components/CreateArea';
-import Note from './components/Note';
-import CategoryList from './components/CategoryList';
-import TodoList from './components/TodoList';
-import ListTemp from './components/ListTemp';
+import React, { useState } from "react";
+import "bulma/css/bulma.min.css";
+import Header from "./components/Header";
+import CreateArea from "./components/CreateArea";
+import Note from "./components/Note";
+import CategoryList from "./components/CategoryList";
+import TodoList from "./components/TodoList";
+import ListTemp from "./components/ListTemp";
+import ListItem from "./components/ListItem";
 
 const App = (props) => {
   const [notes, setNotes] = useState([]);
@@ -22,8 +23,8 @@ const App = (props) => {
 
   return (
     <>
-      {/*<Header />
-      <div id='user-fields'>
+      <Header />
+      {/* <div id='user-fields'>
         <CategoryList />
         <CreateArea onAdd={addNote} />
       </div>
@@ -41,7 +42,6 @@ const App = (props) => {
       <div>
         <TodoList />
       </div>
-
       {/* test ListItem component */}
       <div>
         <ListTemp />

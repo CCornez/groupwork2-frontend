@@ -1,31 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import noteLogo from "../assets/images/noteLogo.png";
+import favicon from "../../public/favicon.ico";
 
 const Header = (props) => {
+  const [isActive, setIsActive] = useState(false);
+
+  const toggleMenu = () => {
+    const navbarMenu = document.querySelector("#nav-links");
+    navbarMenu.style.display = isActive ? "none" : "block";
+    setIsActive(!isActive);
+  };
+
   return (
     <>
-      <nav className="navbar has-shadow is-white">
+      <nav className="navbar has-shadow is-primary">
         <div className="navbar-brand">
-          <div className="columns is-vcentered">
-            <a className="navbar-item">
-              <img
-                className="image"
-                src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png"
-                alt="logo"
-              />
-              <h3 className="is-size-4 has-text-weight-bold">Keep</h3>
+          <a href="" className="navbar-item">
+            <img
+              src={favicon}
+              alt="logo"
+              style={{ maxHeight: "70px" }}
+              className="py-2 px-2"
+            />
+          </a>
+          <a className="navbar-burger" id="burger" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
+        </div>
+        <div className="navbar-menu" id="nav-links">
+          <div className="navbar-end">
+            <a href="" className="navbar-item">
+              Documentation
+            </a>
+            <a href="" className="navbar-item">
+              Other
             </a>
           </div>
-        </div>
-
-        <div className="column is-8 ml-6">
-          <form>
-            <div className="field">
-              <p className="control has-icons-left">
-                <input type="text" className="input" placeholder="Search" />
-                <span className="icon is-large"></span>
-              </p>
-            </div>
-          </form>
         </div>
       </nav>
     </>
