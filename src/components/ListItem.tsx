@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  MouseEvent,
+  ChangeEvent,
+  MouseEventHandler,
+  ChangeEventHandler,
+} from 'react';
 import { MdDelete } from 'react-icons/md';
 import { BsPencilSquare, BsFillCheckSquareFill } from 'react-icons/bs';
+import fetcher from '../js/fetcher';
 
 const ListItem = (props: any) => {
   /**
@@ -28,7 +35,9 @@ const ListItem = (props: any) => {
    * Events
    */
 
-  const handleItemClick = (e) => {
+  const handleItemClick: MouseEventHandler<HTMLDivElement> = (
+    e: MouseEvent<HTMLDivElement> & { target: Element }
+  ) => {
     // TODO: update complete in db
     // const id = e.currentTarget.dataset.id;
 
@@ -41,8 +50,12 @@ const ListItem = (props: any) => {
     }
   };
 
-  const handleItemEdit = (e) => {
-    const inputRef = e.target.closest('.box').querySelector('.input');
+  const handleItemEdit: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & { target: Element }
+  ) => {
+    const inputRef = e.target
+      .closest('.box')
+      ?.querySelector('.input') as HTMLInputElement;
     if (!isUpdating) {
       setIsUpdating(true);
       if (inputRef) {
@@ -56,33 +69,44 @@ const ListItem = (props: any) => {
     }
   };
 
-  const handleItemChange = (e) => {
+  const handleItemChange: ChangeEventHandler<HTMLInputElement> = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     setValue(e.currentTarget.value);
   };
 
-  const openModal = (e) => {
+  const openModal: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & { target: Element }
+  ) => {
     setIsModal(true);
     e.target
       .closest('.listItem')
-      .querySelector('.modal')
-      .classList.add('is-active');
+      ?.querySelector('.modal')
+      ?.classList.add('is-active');
   };
-  const closeModal = (e) => {
+
+  const closeModal: MouseEventHandler<HTMLButtonElement | HTMLDivElement> = (
+    e: MouseEvent<HTMLButtonElement | HTMLDivElement> & { target: Element }
+  ) => {
     // close if clicked outside of modal or on cancel button
     if (
       !e.target.closest('.deleteModal') ||
-      e.currentTarget.classList.contains('button')
+      (e.currentTarget as HTMLButtonElement).classList.contains('button')
     ) {
       setIsModal(false);
       e.target
         .closest('.listItem')
-        .querySelector('.modal')
-        .classList.remove('is-active');
+        ?.querySelector('.modal')
+        ?.classList.remove('is-active');
     }
   };
 
-  const handleItemDelete = (e) => {
-    e.target.closest('.listItem').style.display = 'none';
+  const handleItemDelete: MouseEventHandler<HTMLButtonElement> = (
+    e: MouseEvent<HTMLButtonElement> & {
+      target: Element;
+    }
+  ) => {
+    (e.target.closest('.listItem') as HTMLElement).style.display = 'none';
   };
 
   return (
