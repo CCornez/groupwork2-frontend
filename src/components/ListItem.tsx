@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useEffect,
   MouseEvent,
   ChangeEvent,
   MouseEventHandler,
@@ -19,7 +20,7 @@ const ListItem = (props: any) => {
     id: number;
     todo_lists_id: number;
     title: string;
-    is_completed: boolean;
+    is_completed: string;
   }
 
   // props
@@ -27,7 +28,7 @@ const ListItem = (props: any) => {
 
   // states
   const [value, setValue] = useState(title);
-  const [completed, setCompleted] = useState(is_completed);
+  const [completed, setCompleted] = useState(is_completed !== '0');
   const [isUpdating, setIsUpdating] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
@@ -39,14 +40,26 @@ const ListItem = (props: any) => {
     e: MouseEvent<HTMLDivElement> & { target: Element }
   ) => {
     // TODO: update complete in db
-    // const id = e.currentTarget.dataset.id;
+    const id = e.currentTarget.dataset.id;
 
     // check if user is changing a list item and if the modal is open
-    if (!isUpdating && !isModal) {
-      // check if clicking on the box
-      if (e.target.classList.contains('box') || e.target.nodeName === 'INPUT') {
-        setCompleted((prevState) => !prevState);
-      }
+    // check if clicking on the box
+    if (
+      !isUpdating &&
+      !isModal &&
+      (e.target.classList.contains('box') || e.target.nodeName === 'INPUT')
+    ) {
+      // patch
+      (async () => {
+        const { data } = await fetcher.patch(`/todo/${id}`, {
+          is_completed: completed ? 0 : 1,
+        });
+
+        // check fetch successful
+        if (data.status === 'success') {
+          setCompleted((prevState) => !prevState);
+        }
+      })();
     }
   };
 
@@ -62,10 +75,20 @@ const ListItem = (props: any) => {
         inputRef.disabled = false;
       }
     } else {
-      setIsUpdating(false);
-      if (inputRef) {
-        inputRef.disabled = true;
-      }
+      // patch
+      (async () => {
+        const { data } = await fetcher.patch(`/todo/${id}`, {
+          title: value,
+        });
+
+        // check fetch successful
+        if (data.status === 'success') {
+          setIsUpdating(false);
+          if (inputRef) {
+            inputRef.disabled = true;
+          }
+        }
+      })();
     }
   };
 
@@ -106,7 +129,17 @@ const ListItem = (props: any) => {
       target: Element;
     }
   ) => {
-    (e.target.closest('.listItem') as HTMLElement).style.display = 'none';
+    // patch
+    (async () => {
+      const { data } = await fetcher.patch(`/todo/${id}`, {
+        is_visible: 0,
+      });
+
+      // check fetch successful
+      if (data.status === 'success') {
+        (e.target.closest('.listItem') as HTMLElement).style.display = 'none';
+      }
+    })();
   };
 
   return (
