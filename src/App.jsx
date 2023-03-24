@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from "react";
+import "bulma/css/bulma.min.css";
+import Header from "./components/Header";
+import CreateArea from "./components/CreateArea";
+import Note from "./components/Note";
+import CategoryList from "./components/CategoryList";
+import TodoList from "./components/TodoList";
+import ListTemp from "./components/ListTemp";
+import ListItem from "./components/ListItem";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = (props) => {
+  const [notes, setNotes] = useState([]);
+
+  const addNote = (newNote) => {
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+  };
+
+  function deleteNotes(id) {
+    setNotes((preValue) => {
+      return [...preValue.filter((note, index) => index !== id)];
+    });
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <>
+      <Header />
+      {/* <div id='user-fields'>
+        <CategoryList />
+        <CreateArea onAdd={addNote} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
 
-export default App
+      {notes.map((note, index) => (
+        <Note
+          key={index}
+          id={index}
+          title={note.title}
+          content={note.content}
+          onDelete={deleteNotes}
+          category={note.category}
+        />
+      ))}  */}
+      <div>
+        <TodoList />
+      </div>
+      {/* test ListItem component */}
+      <div>
+        <ListTemp />
+      </div>
+    </>
+  );
+};
+
+export default App;
